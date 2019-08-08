@@ -9,13 +9,14 @@ import {
 
 import store from "@/store";
 
-export interface UIState {
+export interface UiState {
   userToken: string | null;
   userName: string;
+  userAvatarUrl: string;
 }
 
 @Module({ dynamic: true, store, name: "ui" })
-class UIModule extends VuexModule implements UIState {
+class UiModule extends VuexModule implements UiState {
   public userToken: string | null = null;
   public userName: string = "";
   public userAvatarUrl: string = "";
@@ -49,29 +50,18 @@ class UIModule extends VuexModule implements UIState {
   @Action
   public async storeAuthCredentials({
     token,
-    id,
-    name,
-    avatarUrl,
+    user,
   }: {
     token: string;
-    id: string;
-    name: string;
-    avatarUrl: string;
+    user: any;
   }) {
     localStorage.setItem("token", token);
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        id,
-        name,
-        avatarUrl,
-      })
-    );
+    localStorage.setItem("user", JSON.stringify(user));
 
     this.authSuccess({
       token,
-      name,
-      avatarUrl,
+      name: user.name,
+      avatarUrl: user.avatarUrl,
     });
 
     return Promise.resolve();
@@ -103,4 +93,4 @@ class UIModule extends VuexModule implements UIState {
   }
 }
 
-export default getModule(UIModule);
+export default getModule(UiModule);

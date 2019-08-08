@@ -1,12 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import { UIState } from "./ui";
+import { StaffState } from "./staff";
+import { UiState } from "./ui";
 
 Vue.use(Vuex);
 
 export interface RootState {
-  ui: UIState;
+  staff: StaffState;
+  ui: UiState;
 }
 
 // Declare empty store first, dynamically register all modules later.
