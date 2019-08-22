@@ -1,23 +1,30 @@
 <template>
   <div class="dashboard">
-    <h1>Dashboard</h1>
-    <h5>{{ username }}</h5>
-
     <ul>
-      <li v-for="member in staff" :key="member.name">
-        {{ member.name }}
+      <li
+        v-for="member in staff"
+        :key="
+          `${member.lastName.toLowerCase()}-${member.firstName.toLowerCase()}`
+        "
+      >
+        {{ member.firstName }} {{ member.lastName }}
       </li>
     </ul>
 
-    <NewStaffEntryForm />
+    <v-dialog v-model="showEntryForm">
+      <template v-slot:activator="{ on }">
+        <v-btn text v-on="on">Add New Member</v-btn>
+      </template>
+
+      <NewStaffEntryForm v-on:cancel="showEntryForm = false" />
+    </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import StaffStore from "@/store/staff";
-import UiStore from "@/store/ui";
+import StaffStore, { StaffMember } from "@/store/staff";
 
 import NewStaffEntryForm from "@/components/NewStaffEntryForm.vue";
 
@@ -25,12 +32,14 @@ import NewStaffEntryForm from "@/components/NewStaffEntryForm.vue";
   components: { NewStaffEntryForm },
 })
 export default class Dashboard extends Vue {
-  private get username() {
-    return UiStore.userName;
+  private showEntryForm: boolean = false;
+
+  private get staff(): StaffMember[] {
+    return StaffStore.staff;
   }
 
-  private get staff() {
-    return StaffStore.staff;
+  public async created() {
+    StaffStore.fetchStaff();
   }
 }
 </script>

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Router from "vue-router";
+import Router, { RouterOptions } from "vue-router";
 
 import UIStore from "@/store/ui";
 
@@ -7,11 +7,10 @@ import About from "@/views/About.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
-import Register from "@/views/Register.vue";
 
 Vue.use(Router);
 
-const router = new Router({
+export const options: RouterOptions = {
   base: process.env.BASE_URL,
   mode: "history",
   routes: [
@@ -45,7 +44,9 @@ const router = new Router({
       },
     },
   ],
-});
+};
+
+const router = new Router(options);
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

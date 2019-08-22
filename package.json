@@ -34,7 +34,9 @@
     "lint-staged": "^8.1.5",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
+    "typesaurus": "^1.1.0",
     "typescript": "^3.4.3",
+    "vue-cli-plugin-vuetify": "^0.6.3",
     "vue-template-compiler": "^2.6.10",
     "vuex-module-decorators": "^0.9.9"
   },

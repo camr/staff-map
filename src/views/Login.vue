@@ -31,9 +31,9 @@ export default class Login extends Vue {
         this.$emit("loginSuccess");
 
         if (this.$route.params.next != null) {
-          this.$router.push(this.$route.params.next);
+          this.$router.replace(this.$route.params.next);
         } else {
-          this.$router.push("/dashboard");
+          this.$router.replace("/dashboard");
         }
       })
       .catch(() => {
