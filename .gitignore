@@ -1,4 +1,5 @@
 .DS_Store
+.firebaserc
 node_modules
 package-lock.json
 /dist
@@ -8,6 +9,8 @@ package-lock.json
 .env.*.local
 
 # Log files
+firebase-debug.log*
+firestore-debug.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

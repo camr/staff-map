@@ -1,12 +1,11 @@
 import Vue from "vue";
 import Router, { RouterOptions } from "vue-router";
 
-import UIStore from "@/store/ui";
-
 import About from "@/views/About.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
+import Map from "@/views/Map.vue";
 
 Vue.use(Router);
 
@@ -43,38 +42,15 @@ export const options: RouterOptions = {
         requiresAuth: true,
       },
     },
+    {
+      path: "/map",
+      name: "map",
+      component: Map,
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 };
 
-const router = new Router(options);
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!UIStore.isUserLoggedIn) {
-      next({
-        name: "login",
-        params: { next: to.fullPath },
-      });
-    } else {
-      UIStore.validateUserAuth()
-        .then(next)
-        .catch(() => {
-          console.error("User was logged in, but auth was invalid");
-          next({
-            name: "login",
-            params: { next: to.fullPath },
-          });
-        });
-    }
-  } else if (to.matched.some(record => record.meta.guest)) {
-    if (!UIStore.isUserLoggedIn) {
-      next();
-    } else {
-      next({ name: "dashboard" });
-    }
-  } else {
-    next();
-  }
-});
-
-export default router;
+export default new Router(options);

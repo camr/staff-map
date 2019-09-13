@@ -1,106 +1,113 @@
 <template>
-  <v-app id="staff-map">
-    <!--
-    <v-navigation-drawer app dark>
-      <template v-slot:img>
-        <v-img
-          src="https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-3.3a54f533.jpg"
-          height="100%"
-          gradient="to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)"
-        ></v-img>
-      </template>
+  <div>
+    <nav class="flex items-center justify-between flex-wrap bg-pink-600 p-6">
+      <div class="flex items-center flex-shrink-0 text-white mr-6">
+        <span class="font-normal text-xl"
+          >Staff Map{{ orgName ? ` - ${orgName}` : "" }}</span
+        >
+      </div>
 
-      <v-list nav>
-        <v-list-item dark>
-          <v-list-item-title>Staff Map</v-list-item-title>
-        </v-list-item>
+      <div class="block lg:hidden">
+        <button
+          class="flex items-center px-3 py-2 border rounded text-pink-200 border-pink-400 hover:text-white hover:border-white"
+        >
+          <svg
+            class="fill-current h-3 w-3"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </button>
+      </div>
 
-        <v-list-item link dark to="/about">
-          <v-list-item-icon>
-            <v-icon>mdi-anchor</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>About</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+      <div class="w-full block items-end lg:flex lg:w-auto">
+        <div class="text-sm lg:flex-grow">
+          <a
+            href="/about"
+            class="block mt-4 lg:inline-block lg:mt-0 text-pink-100 hover:text-white mr-4 select-none"
+          >
+            About
+          </a>
 
-        <v-list-item link to="/dashboard">
-          <v-list-item-icon>
-            <v-icon>mdi-anchor</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+          <a
+            href="/dashboard"
+            class="block mt-4 lg:inline-block lg:mt-0 text-pink-100 hover:text-white mr-4 select-none"
+          >
+            Dashboard
+          </a>
 
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block>Logout</v-btn>
+          <a
+            href="/map"
+            class="block mt-4 lg:inline-block lg:mt-0 text-pink-100 hover:text-white mr-4 select-none"
+          >
+            Map
+          </a>
         </div>
-      </template>
-    </v-navigation-drawer>
-    -->
+      </div>
+    </nav>
 
-    <v-app-bar app fixed color="primary" dark fade-image-on-scroll>
-      <template v-slot:img>
-        <v-img
-          src="@/assets/map.jpg"
-          height="100%"
-          gradient="to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)"
-        ></v-img>
-      </template>
+    <div class="flex justify-center p-4">
+      <div class="w-full md:w-3/4">
+        <router-view />
+      </div>
+    </div>
 
-      <v-toolbar-title>Staff Map</v-toolbar-title>
+    <!-- <v-app-bar app fixed color="primary" dark fade-image-on-scroll>
+    <template v-slot:img>
+      <v-img
+        src="@/assets/images/map.jpg"
+        height="100%"
+        gradient="to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)"
+      ></v-img>
+    </template>
 
-      <div class="flex-grow-1"></div>
+    <v-toolbar-title
+      >Staff Map{{ orgName ? ` - ${orgName}` : "" }}</v-toolbar-title
+    >
 
-      <v-toolbar-items v-if="isUserLoggedIn">
-        <v-btn text @click="$router.push('about')" class="d-none d-lg-block">
-          About
-        </v-btn>
+    <div class="flex-grow-1"></div>
 
-        <v-btn icon @click="$router.push('about')" class="d-block d-lg-none">
-          <v-icon>mdi-help</v-icon>
-        </v-btn>
+    <v-toolbar-items v-if="isUserLoggedIn">
+      <v-btn text @click="$router.push('about')" class="d-none d-lg-block">
+        About
+      </v-btn>
 
-        <v-divider vertical></v-divider>
-
-        <v-btn
-          text
-          @click="$router.push('dashboard')"
-          class="d-none d-lg-block"
-        >
-          Dashboard
-        </v-btn>
-
-        <v-btn
-          icon
-          @click="$router.push('dashboard')"
-          class="d-block d-lg-none"
-        >
-          <v-icon>mdi-view-dashboard</v-icon>
-        </v-btn>
-
-        <v-divider vertical></v-divider>
-      </v-toolbar-items>
+      <v-btn icon @click="$router.push('about')" class="d-block d-lg-none">
+        <v-icon>mdi-help</v-icon>
+      </v-btn>
 
       <v-divider vertical></v-divider>
 
-      <v-menu
-        v-model="showAccountMenu"
-        :close-on-content-click="false"
-        :nudge-width="200"
-        left
-        bottom
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
+      <v-btn text @click="$router.push('dashboard')" class="d-none d-lg-block">
+        Dashboard
+      </v-btn>
 
-        <v-card>
+      <v-btn icon @click="$router.push('dashboard')" class="d-block d-lg-none">
+        <v-icon>mdi-view-dashboard</v-icon>
+      </v-btn>
+
+      <v-divider vertical></v-divider>
+    </v-toolbar-items>
+
+    <v-divider vertical></v-divider>
+
+    <v-menu
+      v-model="showAccountMenu"
+      :close-on-content-click="false"
+      :nudge-width="200"
+      left
+      bottom
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <template v-if="isUserLoggedIn">
           <v-list>
             <v-list-item>
               <v-list-item-avatar>
@@ -137,30 +144,43 @@
           </v-list>
 
           <v-divider></v-divider>
+        </template>
 
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
 
-            <v-btn text @click="$router.push('logout')">
-              Logout
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
-    </v-app-bar>
+          <v-btn
+            v-if="isUserLoggedIn"
+            text
+            @click="
+              $router.push('logout');
+              showAccountMenu = false;
+            "
+          >
+            Log out
+          </v-btn>
 
-    <v-content>
-      <v-container fluid>
-        <router-view />
-      </v-container>
-    </v-content>
+          <v-btn
+            v-else
+            text
+            @click="
+              $router.push('login');
+              showAccountMenu = false;
+            "
+          >
+            Log in
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-menu>
+  </v-app-bar> -->
 
-    <v-footer app dark padless class="font-weight-medium">
-      <v-col class="text-center" cols="12">
-        {{ new Date().getFullYear() }} &mdash; camr
-      </v-col>
-    </v-footer>
-  </v-app>
+    <!-- <v-footer app dark padless class="font-weight-medium">
+    <v-col class="text-center" cols="12">
+      {{ new Date().getFullYear() }} &mdash; camr
+    </v-col>
+  </v-footer> -->
+  </div>
 </template>
 
 <script lang="ts">
@@ -172,21 +192,20 @@ import UiStore from "@/store/ui";
 export default class App extends Vue {
   private showAccountMenu: boolean = false;
 
+  private get isUserLoggedIn() {
+    return UiStore.isUserLoggedIn;
+  }
+
   private get username() {
     return UiStore.userName;
   }
 
-  get isUserLoggedIn() {
-    return UiStore.isUserLoggedIn;
+  private get orgName() {
+    return UiStore.currentOrg ? UiStore.currentOrg.name : "";
   }
 }
 </script>
 
-<style lang="scss" scoped>
-#staff-map {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+<style lang="postcss">
+@import "assets/styles/base.pcss";
 </style>

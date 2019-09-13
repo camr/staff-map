@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function parentOrg(orgId) {
+      return get(/databases/$(database)/documents/orgs/$(orgId)).data;
+    }
+
+    match /users/{userId} {
+      allow read, list;
+      allow create: if request.auth.uid == userId;
+    }
+
+    match /orgs/{orgId} {
+      allow read, write: if request.auth.uid in resource.data.managers;
+
+      match /staff/{staffid} {
+        allow read, write: if request.auth.uid in parentOrg(orgId).managers;
+      }
+    }
+  }
+}

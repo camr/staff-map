@@ -15,9 +15,21 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+### Run firebase rules tests
+Requires firebase-tools: https://github.com/firebase/firebase-tools
+
+Setup:
+
 ```
-npm run test
+firebase setup:emulators:firestore
+firebase use --add <firebase project id>
+```
+
+To run:
+
+```
+firebase emulators:start --only firestore
+npm test
 ```
 
 ### Lints and fixes files
@@ -25,5 +37,9 @@ npm run test
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deploy
+
+Firestore Rules:
+```
+firebase deploy --only firestore:rules
+```
