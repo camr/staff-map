@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 
 import StaffStore, { StaffMember } from "@/store/staff";
 
@@ -73,7 +73,7 @@ export default class StaffListEntry extends Vue {
   public readonly member!: StaffMember;
 
   @Prop({ default: null })
-  public readonly selected!: StaffMember | null;
+  public readonly selected!: string | null;
 
   private edited: boolean = false;
   private editableMember: StaffMember = new StaffMember();
@@ -83,7 +83,27 @@ export default class StaffListEntry extends Vue {
   private lastClick: number = 0;
 
   private get isSelected() {
-    return this.selected && this.member.id === this.selected.id;
+    return this.selected === this.member.id;
+  }
+
+  @Watch("selected")
+  private selectionChanged(
+    newSelection: string | null,
+    oldSelection: string | null
+  ) {
+    if (oldSelection === this.member.id && newSelection !== this.member.id) {
+      // parent is moving away from this member
+      this.editableMember = new StaffMember(this.member);
+    } else if (
+      oldSelection !== this.member.id &&
+      newSelection === this.member.id
+    ) {
+      // moving to this member
+      if (!this.edited) {
+        this.editableMember = new StaffMember(this.member);
+        this.edited = true;
+      }
+    }
   }
 
   private select() {
@@ -93,14 +113,14 @@ export default class StaffListEntry extends Vue {
     }
     this.lastClick = now;
 
-    if (!this.selected || this.selected.id !== this.member.id) {
+    if (this.selected !== this.member.id) {
       if (!this.edited) {
         this.editableMember = new StaffMember(this.member);
         this.edited = true;
       }
 
-      this.$emit("select", this.member);
-    } else if (this.selected && this.selected.id === this.member.id) {
+      this.$emit("select", this.member.id);
+    } else if (this.selected === this.member.id) {
       this.$emit("select", null);
     }
   }

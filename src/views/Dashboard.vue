@@ -1,14 +1,6 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard w-full md:w-3/4 my-4">
     <StaffList :staff="staff" />
-
-    <!-- <v-dialog v-model="showEntryForm">
-      <template v-slot:activator="{ on }">
-        <v-btn text v-on="on">Add New Member</v-btn>
-      </template>
-
-      <NewStaffEntryForm v-on:close="showEntryForm = false" />
-    </v-dialog> -->
   </div>
 </template>
 

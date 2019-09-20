@@ -1,57 +1,87 @@
 <template>
-  <div>
-    <nav class="flex items-center justify-between flex-wrap bg-pink-600 p-6">
-      <div class="flex items-center flex-shrink-0 text-white mr-6">
-        <span class="font-normal text-xl"
-          >Staff Map{{ orgName ? ` - ${orgName}` : "" }}</span
-        >
+  <div
+    class="
+        flex flex-col
+        h-full w-full
+      "
+  >
+    <nav
+      class="
+        flex
+        w-full
+        items-center justify-between
+        bg-pink-600 p-4
+      "
+    >
+      <div
+        class="
+          text-lg text-white
+          mr-6
+        "
+      >
+        Staff Map{{ orgName ? ` - ${orgName}` : "" }}
       </div>
 
-      <div class="block lg:hidden">
-        <button
-          class="flex items-center px-3 py-2 border rounded text-pink-200 border-pink-400 hover:text-white hover:border-white"
+      <div class="flex items-center justify-end">
+        <a
+          href="/about"
+          class="
+              block
+              lg:inline-block lg:mt-0
+              text-pink-100 hover:text-pink-300
+              mr-4
+              select-none
+            "
         >
-          <svg
-            class="fill-current h-3 w-3"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </button>
-      </div>
+          <span class="hidden lg:block">About</span>
+          <SVGIcon name="information-outline" class="block lg:hidden" />
+        </a>
 
-      <div class="w-full block items-end lg:flex lg:w-auto">
-        <div class="text-sm lg:flex-grow">
-          <a
-            href="/about"
-            class="block mt-4 lg:inline-block lg:mt-0 text-pink-100 hover:text-white mr-4 select-none"
-          >
-            About
-          </a>
+        <a
+          href="/dashboard"
+          class="
+              block
+              lg:inline-block lg:mt-0
+              text-pink-100 hover:text-pink-300
+              mr-4
+              select-none
+            "
+        >
+          <span class="hidden lg:block">Dashboard</span>
+          <SVGIcon name="dashboard" class="block lg:hidden" />
+        </a>
 
-          <a
-            href="/dashboard"
-            class="block mt-4 lg:inline-block lg:mt-0 text-pink-100 hover:text-white mr-4 select-none"
-          >
-            Dashboard
-          </a>
+        <a
+          href="/map"
+          class="
+              block
+              text-pink-100 hover:text-pink-300
+              mr-4
+              select-none
+            "
+        >
+          <span class="hidden lg:block">Map</span>
+          <SVGIcon name="map" class="block lg:hidden" />
+        </a>
 
-          <a
-            href="/map"
-            class="block mt-4 lg:inline-block lg:mt-0 text-pink-100 hover:text-white mr-4 select-none"
-          >
-            Map
-          </a>
-        </div>
+        <div
+          class="
+            h-full w-px bg-pink-500 mr-4
+          "
+          style="height: 80px;"
+        ></div>
+
+        <SVGIcon
+          name="dots-horizontal-triple"
+          class="
+            text-pink-100 hover:text-pink-300
+          "
+        />
       </div>
     </nav>
 
-    <div class="flex justify-center p-4">
-      <div class="w-full md:w-3/4">
-        <router-view />
-      </div>
+    <div class="flex align-center justify-center">
+      <router-view />
     </div>
 
     <!-- <v-app-bar app fixed color="primary" dark fade-image-on-scroll>
@@ -188,7 +218,11 @@ import { Component, Vue } from "vue-property-decorator";
 
 import UiStore from "@/store/ui";
 
-@Component
+import SVGIcon from "@/components/ui/SVGIcon.vue";
+
+@Component({
+  components: { SVGIcon },
+})
 export default class App extends Vue {
   private showAccountMenu: boolean = false;
 
@@ -208,4 +242,8 @@ export default class App extends Vue {
 
 <style lang="postcss">
 @import "assets/styles/base.pcss";
+
+nav {
+  max-height: 80px;
+}
 </style>

@@ -3,7 +3,7 @@
     <ul v-if="staff.length > 0" class="w-full">
       <StaffListEntry
         v-for="member in staff"
-        v-model="selectedMember"
+        v-model="selectedMemberId"
         :member="member"
         :key="member.id"
         class="mb-2"
@@ -33,10 +33,12 @@ export default class StaffList extends Vue {
   @Prop({ default: [] })
   public readonly staff!: StaffMember[];
 
-  private selectedMember: StaffMember | null = null;
+  private selectedMemberId?: string;
 
   public addNewMember() {
-    StaffStore.addMember(new StaffMember());
+    StaffStore.addMember(new StaffMember()).then(member => {
+      this.selectedMemberId = member.id;
+    });
   }
 }
 </script>
