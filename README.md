@@ -5,6 +5,12 @@
 npm install
 ```
 
+### Environment variables
+Create `.env.local`:
+```
+VUE_APP_GOOGLE_PROJECT_API_KEY = <Google Project API Key (Firebase and JS Maps enabled)>
+```
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
