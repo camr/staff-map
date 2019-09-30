@@ -1,6 +1,7 @@
 <template>
   <div class="text-input" :class="{ error }">
     <label
+      v-if="label"
       class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
       :class="{ 'text-red-700': error }"
       :for="inputId"
@@ -38,17 +39,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Watch, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-type FormRule = (val: any) => boolean | string;
-type FormRules = { [key: string]: FormRule[] };
+type FormRule = (val: string) => boolean | string;
+interface FormRules {
+  [key: string]: FormRule[];
+}
 
 @Component
 export default class TextInputField extends Vue {
   @Prop({ default: null })
   public readonly id!: string | null;
 
-  @Prop({ default: "Text" })
+  @Prop({ default: "" })
   public readonly label!: string;
 
   @Prop({ default: "text" })

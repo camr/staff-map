@@ -35,7 +35,30 @@
           v-model="member.displayLocation"
         />
 
-        <TextInputField class="w-full" label="Positions" id="position" />
+        <TextInputField
+          class="w-full"
+          label="Positions"
+          id="position"
+          v-model="newPosition"
+          v-hotkey="positionHotkeys"
+          @blur="addPosition"
+        />
+        <div class="w-full flex flex-wrap items-center">
+          <div
+            v-for="pos in member.positions"
+            :key="pos"
+            class="
+              border border-gray-400
+              bg-gray-200
+              text-xs
+              rounded-lg
+              px-2 py-1
+              mr-2 mb-2
+            "
+          >
+            #{{ pos }}
+          </div>
+        </div>
       </div>
 
       <div class="w-1/2 pl-2 flex flex-col">
@@ -129,6 +152,7 @@ export default class StaffListEntry extends Vue {
   public member!: StaffMember;
 
   private showMarkdown: boolean = true;
+  private newPosition: string = "";
 
   $refs!: {
     notes: HTMLTextAreaElement;
@@ -137,6 +161,12 @@ export default class StaffListEntry extends Vue {
 
   private get markdownNotes(): string {
     return Marked.parse(this.member.notes);
+  }
+
+  private get positionHotkeys() {
+    return {
+      enter: this.addPosition,
+    };
   }
 
   private update() {
@@ -153,6 +183,13 @@ export default class StaffListEntry extends Vue {
     this.$emit("remove", this.member);
   }
 
+  private addPosition(): void {
+    if (this.newPosition.length > 0) {
+      this.member.positions.push(this.newPosition);
+      this.newPosition = "";
+    }
+  }
+
   private focusOnNotes() {
     this.showMarkdown = false;
     this.$nextTick(() => {
@@ -161,50 +198,47 @@ export default class StaffListEntry extends Vue {
   }
 
   public mounted() {
-    const autocomplete = new google.maps.places.Autocomplete(
-      this.$el.querySelector("#location")! as HTMLInputElement,
-      { types: ["geocode"] }
-    );
-
-    autocomplete.addListener("place_changed", () => {
-      let place = autocomplete.getPlace();
-      if (place && place.geometry && place.address_components) {
-        let ac = place.address_components;
-        let lat = place.geometry.location.lat();
-        let lng = place.geometry.location.lng();
-
-        let city: string | null = null;
-        let state: string | null = null;
-
-        let i = 0;
-        while ((city === null || state === null) && i < ac.length) {
-          if (!city && ac[i].types.includes("locality")) {
-            city = ac[i].long_name;
-          } else if (!city && ac[i].types.includes("sublocality_level_1")) {
-            city = ac[i].long_name;
-          }
-
-          if (!state && ac[i].types.includes("administrative_area_level_1")) {
-            state = ac[i].short_name;
-          }
-
-          i++;
-        }
-
-        let display: string = state || "";
-        if (city && state) {
-          display = `, ${display}`;
-        }
-        if (city) {
-          display = `${city}${display}`;
-        }
-
-        this.member.displayLocation = display;
-        this.member.latlng = [lat, lng];
-      } else {
-        console.log("User didn't pick a place");
-      }
-    });
+    // const autocompleteEl = this.$el.querySelector("#location");
+    // if (!autocompleteEl) {
+    //   return;
+    // }
+    // const autocomplete = new google.maps.places.Autocomplete(
+    //   autocompleteEl as HTMLInputElement,
+    //   { types: ["geocode"] }
+    // );
+    // autocomplete.addListener("place_changed", () => {
+    //   let place = autocomplete.getPlace();
+    //   if (place && place.geometry && place.address_components) {
+    //     let ac = place.address_components;
+    //     let lat = place.geometry.location.lat();
+    //     let lng = place.geometry.location.lng();
+    //     let city: string | null = null;
+    //     let state: string | null = null;
+    //     let i = 0;
+    //     while ((city === null || state === null) && i < ac.length) {
+    //       if (!city && ac[i].types.includes("locality")) {
+    //         city = ac[i].long_name;
+    //       } else if (!city && ac[i].types.includes("sublocality_level_1")) {
+    //         city = ac[i].long_name;
+    //       }
+    //       if (!state && ac[i].types.includes("administrative_area_level_1")) {
+    //         state = ac[i].short_name;
+    //       }
+    //       i++;
+    //     }
+    //     let display: string = state || "";
+    //     if (city && state) {
+    //       display = `, ${display}`;
+    //     }
+    //     if (city) {
+    //       display = `${city}${display}`;
+    //     }
+    //     this.member.displayLocation = display;
+    //     this.member.latlng = [lat, lng];
+    //   } else {
+    //     console.log("User didn't pick a place");
+    //   }
+    // });
   }
 }
 </script>

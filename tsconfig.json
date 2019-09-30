@@ -26,6 +26,12 @@
     "__tests__/**/*.ts",
     "__tests__/**/*.tsx"
   ],
-  "files": ["shims/google.d.ts", "shims/vue.d.ts", "shims/window.d.ts"],
+  "files": [
+    "shims/google.d.ts",
+    "shims/images.d.ts",
+    "shims/jsx.d.ts",
+    "shims/vue.d.ts",
+    "shims/window.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -78,18 +78,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
 import firebase from "firebase/app";
 import "firebase/auth";
 
-import UiStore from "@/store/ui";
-
 import Button from "@/components/ui/Button.vue";
 import TextInputField from "@/components/ui/TextInputField.vue";
 
-type FormRule = (val: any) => boolean | string;
-type FormRules = { [key: string]: FormRule[] };
+type FormRule = (val: string) => boolean | string;
+interface FormRules {
+  [key: string]: FormRule[];
+}
 
 @Component({
   components: { Button, TextInputField },

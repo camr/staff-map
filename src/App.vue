@@ -7,74 +7,88 @@
   >
     <nav
       class="
-        flex
-        w-full
+        flex flex-grow-0 flex-shrink-0
+        h-12 w-full
         items-center justify-between
-        bg-pink-600 p-4
+        bg-gray-100
+        font-sans text-gray-900
+        shadow-md
+        pl-4
+        z-50
       "
     >
       <div
         class="
-          text-lg text-white
+          font-medium
+          font-semibold
+          text-base
+          uppercase
           mr-6
         "
       >
-        Staff Map{{ orgName ? ` - ${orgName}` : "" }}
+        <span v-if="orgName">{{ orgName }}</span>
+        <span v-else>Staff Map</span>
       </div>
 
-      <div class="flex items-center justify-end">
+      <div class="flex flex-grow-0 h-full items-center justify-end">
         <a
           href="/about"
           class="
-              block
+              flex flex-col justify-center
+              h-full
               lg:inline-block lg:mt-0
-              text-pink-100 hover:text-pink-300
-              mr-4
+              text-sm
+              text-gray-900 hover:text-gray-700
+              px-2
               select-none
+              transition-all
             "
         >
-          <span class="hidden lg:block">About</span>
-          <SVGIcon name="information-outline" class="block lg:hidden" />
+          About
         </a>
 
         <a
           href="/dashboard"
           class="
-              block
+              flex flex-col justify-center
+              h-full
               lg:inline-block lg:mt-0
-              text-pink-100 hover:text-pink-300
-              mr-4
+              text-sm
+              text-gray-900 hover:text-gray-700
+              mx-2
               select-none
+              transition-all
             "
         >
-          <span class="hidden lg:block">Dashboard</span>
-          <SVGIcon name="dashboard" class="block lg:hidden" />
+          Dashboard
         </a>
 
         <a
           href="/map"
           class="
-              block
-              text-pink-100 hover:text-pink-300
-              mr-4
+              flex flex-col justify-center
+              h-full
+              text-sm
+              text-gray-900 hover:text-gray-700
+              mx-2
               select-none
+              transition-all
             "
         >
-          <span class="hidden lg:block">Map</span>
-          <SVGIcon name="map" class="block lg:hidden" />
+          Map
         </a>
 
         <div
           class="
-            h-full w-px bg-pink-500 mr-4
+            h-full w-px bg-gray-400 ml-2
           "
-          style="height: 80px;"
         ></div>
 
         <SVGIcon
           name="dots-horizontal-triple"
           class="
-            text-pink-100 hover:text-pink-300
+            mx-2
+            text-gray-900 hover:text-gray-700
           "
         />
       </div>
@@ -242,8 +256,4 @@ export default class App extends Vue {
 
 <style lang="postcss">
 @import "assets/styles/base.pcss";
-
-nav {
-  max-height: 80px;
-}
 </style>

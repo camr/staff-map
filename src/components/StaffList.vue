@@ -11,9 +11,9 @@
     </ul>
 
     <div class="w-auto text-right mt-3">
-      <Button @click="addNewMember" :debounce="1000"
-        >Add New Staff Member</Button
-      >
+      <Button @click="addNewMember" :debounce="1000">
+        Add New Staff Member
+      </Button>
     </div>
   </div>
 </template>
@@ -33,11 +33,11 @@ export default class StaffList extends Vue {
   @Prop({ default: [] })
   public readonly staff!: StaffMember[];
 
-  private selectedMemberId?: string;
+  private selectedMemberId: string | null = null;
 
   public addNewMember() {
     StaffStore.addMember(new StaffMember()).then(member => {
-      this.selectedMemberId = member.id;
+      this.selectedMemberId = member.id ? member.id : null;
     });
   }
 }

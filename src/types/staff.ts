@@ -1,7 +1,4 @@
-export class Position {
-  public id?: string;
-  public display: string = "New Position";
-}
+export type Position = string;
 
 export class StaffMember {
   public id?: string;
@@ -21,7 +18,7 @@ export class StaffMember {
   public latlng: number[] = [];
   public displayLocation: string = "";
 
-  constructor(copy?: StaffMember) {
+  public constructor(copy?: StaffMember) {
     if (copy) {
       this.id = copy.id;
       this.firstName = copy.firstName;
